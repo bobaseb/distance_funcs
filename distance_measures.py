@@ -35,6 +35,7 @@ def var_info(mat1, mat2,reg=0):
 
 def bhdist (mu1, mu2, mat1, mat2,reg=0):
     #Bhattacharyya_distance assuming normal distros
+    #expects columns to be observations and rows features
     diff_mn_mat = np.matrix(mu1-mu2).T
     if(reg==1):
         cov_mat1 = ledoit_wolf(mat1)[0]
@@ -43,7 +44,7 @@ def bhdist (mu1, mu2, mat1, mat2,reg=0):
         cov_mat1 = np.cov(mat1)
         cov_mat2 = np.cov(mat2) 
     cov_mat_mn = (cov_mat1 + cov_mat2)/2
-    icov_mat_mn = invcov_mah(cov_mat_mn,0)
+    icov_mat_mn = np.linalg.inv(cov_mat_mn)
     term1 = np.dot(np.dot(diff_mn_mat.T, icov_mat_mn), diff_mn_mat)/8
     (sign1, logdet1) = np.linalg.slogdet(cov_mat1)
     (sign2, logdet2) = np.linalg.slogdet(cov_mat2)
