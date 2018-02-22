@@ -6,6 +6,8 @@ Created on 21 Feb 2018
 @author: bobaseb (Sebastian Bobadilla-Suarez)
 
 *requires numpy & scikit-learn
+
+- both functions give you the option of using ledoit-wolf shrinkage on the covariance matrix
 '''
 
 import numpy as np
