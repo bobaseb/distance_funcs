@@ -15,9 +15,10 @@ from sklearn.covariance import ledoit_wolf
 
 def var_info(mat1, mat2,reg=0):
     #Variation of Information assuming normal distros
-    #expects rows to be observations and columns features    
+    #expects rows to be observations and columns features  
+    #expects same number of observations in both matrices
     #needs checking....
-    n = mat1.shape[1]
+    n = mat1.shape[0]
     mat0 = np.hstack([mat1,mat2])
     if(reg==1):
         cov_mat0 = ledoit_wolf(mat0)[0]
@@ -27,9 +28,9 @@ def var_info(mat1, mat2,reg=0):
         cov_mat0 = np.cov(mat0)
         cov_mat1 = np.cov(mat1)
         cov_mat2 = np.cov(mat2)        
-    (sign0, logdet0) = np.linalg.slogdet(cov_mat0*2*np.exp(1)*np.pi)
-    (sign1, logdet1) = np.linalg.slogdet(cov_mat1*2*np.exp(1)*np.pi)
-    (sign2, logdet2) = np.linalg.slogdet(cov_mat2*2*np.exp(1)*np.pi)
+    (sign0, logdet0) = 0.5*n*np.linalg.slogdet(cov_mat0*2*np.exp(1)*np.pi)
+    (sign1, logdet1) = 0.5*n*np.linalg.slogdet(cov_mat1*2*np.exp(1)*np.pi)
+    (sign2, logdet2) = 0.5*n*np.linalg.slogdet(cov_mat2*2*np.exp(1)*np.pi)
     MI = (logdet1 + logdet2 - logdet0)
     return logdet0 - MI;
 
